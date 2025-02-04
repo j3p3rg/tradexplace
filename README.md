@@ -58,14 +58,15 @@ cp .env.example .env
    ```
 
 
-#### Start Eliza
+#### Build Eliza dependencies and Plugins
 
 ```bash
-pnpm i
+pnpm install
 pnpm build
+nvm install v23.3.0 #node v23.3.0 is required to avoid additional erros while running the agent
 
-# The project iterates fast, sometimes you need to clean the project if you are coming back to the project
-pnpm clean
+# If you have any errors while running the install command then try this one:
+pnpm install --no-frozen-lockfile
 ```
 
 ### Interact via Browser
@@ -82,15 +83,10 @@ Then read the [Documentation](https://elizaos.github.io/eliza/) to learn how to 
 
 ---
 
-### Modify Character
+### Using TradePilot Character
 
-1. Open `packages/core/src/defaultCharacter.ts` to modify the default character. Uncomment and edit.
-
-2. To load custom characters:
-    - Use `pnpm start --characters="path/to/your/character.json"`
-    - Multiple character files can be loaded simultaneously
-3. Connect with X (Twitter)
-    - change `"clients": []` to `"clients": ["twitter"]` in the character file to connect with X
+1. To load TradePilot character:
+    - Use `pnpm start --characters="characters/tradepilot.character.json"`
 
 ---
 

@@ -11,7 +11,7 @@ import { WebSearchService } from "../services/webSearchService";
 import type { SearchResult } from "../types";
 
 const DEFAULT_MAX_WEB_SEARCH_TOKENS = 4000;
-const DEFAULT_MODEL_ENCODING = "gpt-3.5-turbo";
+const DEFAULT_MODEL_ENCODING = "gpt-4o-mini";
 
 function getTotalTokensFromString(
     str: string,
@@ -46,7 +46,7 @@ export const webSearch: Action = {
     ],
     suppressInitialMessage: true,
     description:
-        "Perform a web search to find information related to the message.",
+        "Perform a web search to find information related to the cryptocurrency in the message(ETH, BTC, PEPE, etc...).",
     // eslint-disable-next-line
     validate: async (runtime: IAgentRuntime, message: Memory) => {
         const tavilyApiKeyOk = !!runtime.getSetting("TAVILY_API_KEY");
@@ -71,7 +71,7 @@ export const webSearch: Action = {
         const webSearchService = new WebSearchService();
         await webSearchService.initialize(runtime);
         const searchResponse = await webSearchService.search(
-            webSearchPrompt,
+            webSearchPrompt + ". Based on the sentiment of the news give a buy, sell, or hold advice for the token, with a short summary of what is currently happening in the market that justifies the advice you are giving. The response must be just the advice and short summary. Don't include the price.",
         );
 
         if (searchResponse && searchResponse.results.length) {
@@ -194,6 +194,32 @@ export const webSearch: Action = {
                 user: "{{agentName}}",
                 content: {
                     text: "Here is the information about the next Apple keynote event:",
+                    action: "WEB_SEARCH",
+                },
+            },
+        ],
+        [
+            {
+                user: "{{user1}}",
+                content: { text: "Check the latest token price of ETH." },
+            },
+            {
+                user: "{{agentName}}",
+                content: {
+                    text: "Here is the latest token price of ETH I found:",
+                    action: "WEB_SEARCH",
+                },
+            },
+        ],
+        [
+            {
+                user: "{{user1}}",
+                content: { text: "Check the latest news about the price of ETH." },
+            },
+            {
+                user: "{{agentName}}",
+                content: {
+                    text: "Here is the latest news about the price of ETH I found:",
                     action: "WEB_SEARCH",
                 },
             },

@@ -34,11 +34,11 @@ export class WebSearchService extends Service implements IWebSearchService {
         try {
             const response = await this.tavilyClient.search(query, {
                 includeAnswer: options?.includeAnswer || true,
-                maxResults: options?.limit || 3,
-                topic: options?.type || "general",
-                searchDepth: options?.searchDepth || "basic",
+                maxResults: options?.limit || 8,
+                topic: options?.type || "news",
+                searchDepth: options?.searchDepth || "advanced",
                 includeImages: options?.includeImages || false,
-                days: options?.days || 3,
+                days: options?.days || 2,
             });
 
             return response;
