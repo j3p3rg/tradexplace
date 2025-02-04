@@ -53,6 +53,8 @@ cp .env.example .env
    ```ini
    TELEGRAM_BOT_TOKEN=your_telegram_bot_token
    TAVILY_API_KEY=your_api_key    # Required: API key for search service
+   GOOGLE_GENERATIVE_AI_API_KEY= your_gemini_key # Gemini API key
+   XAI_MODEL="gemini-2"
    ```
 
 
