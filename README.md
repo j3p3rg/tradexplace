@@ -46,6 +46,16 @@ Copy .env.example to .env and fill in the appropriate values.
 cp .env.example .env
 ```
 
+**Configure Environment Variables:**
+
+   Create a `.env` file (or set the environment variables in your deployment environment) with the following keys:
+
+   ```ini
+   TELEGRAM_BOT_TOKEN=your_telegram_bot_token
+   TAVILY_API_KEY=your_api_key    # Required: API key for search service
+   ```
+
+
 #### Start Eliza
 
 ```bash
