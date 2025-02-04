@@ -1,79 +1,42 @@
-# Eliza 🤖
+# TradePilot
 
-<div align="center">
-  <img src="./docs/static/img/eliza_banner.jpg" alt="Eliza Banner" width="100%" />
-</div>
+TradePilot is a Telegram bot designed to help users make smarter investment decisions when buying or selling cryptocurrencies. By analyzing current market data and sentiment, TradePilot offers context-aware advice before executing any trade. If the market conditions are unfavorable, the bot notifies the user and halts the trade unless the user explicitly confirms.
 
-<div align="center">
+## Table of Contents
 
-📑 [Technical Report](https://arxiv.org/pdf/2501.06781) |  📖 [Documentation](https://elizaos.github.io/eliza/) | 🎯 [Examples](https://github.com/thejoven/awesome-eliza)
+- [Overview](#overview)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
-</div>
+## Overview
 
-## 🌍 README Translations
+In today's fast-paced crypto markets, making quick, well-informed decisions is crucial. TradePilot is built to be your co-pilot in the world of digital asset trading. When a user sends a buy or sell command via Telegram, TradePilot first examines the market conditions and sentiment. If the market signals are weak or negative, the bot will warn the user rather than executing a potentially risky trade. This helps users avoid poor entry or exit points and manage risk more effectively.
 
-[中文说明](i18n/readme/README_CN.md) | [日本語の説明](i18n/readme/README_JA.md) | [한국어 설명](i18n/readme/README_KOR.md) | [Persian](i18n/readme/README_FA.md) | [Français](i18n/readme/README_FR.md) | [Português](i18n/readme/README_PTBR.md) | [Türkçe](i18n/readme/README_TR.md) | [Русский](i18n/readme/README_RU.md) | [Español](i18n/readme/README_ES.md) | [Italiano](i18n/readme/README_IT.md) | [ไทย](i18n/readme/README_TH.md) | [Deutsch](i18n/readme/README_DE.md) | [Tiếng Việt](i18n/readme/README_VI.md) | [עִברִית](i18n/readme/README_HE.md) | [Tagalog](i18n/readme/README_TG.md) | [Polski](i18n/readme/README_PL.md) | [Arabic](i18n/readme/README_AR.md) | [Hungarian](i18n/readme/README_HU.md) | [Srpski](i18n/readme/README_RS.md) | [Română](i18n/readme/README_RO.md) | [Nederlands](i18n/readme/README_NL.md) | [Ελληνικά](i18n/readme/README_GR.md)
+## Features
 
-## 🚩 Overview
+- **Market Analysis:** Automatically retrieves and analyzes real-time market data to determine sentiment and context.
+- **Informed Trading Decisions:** Provides users with clear advice on whether conditions are favorable for trading.
+- **User-Controlled Execution:** Executes trades only when market sentiment is positive or when the user explicitly confirms in adverse conditions.
+- **Telegram Integration:** Operates seamlessly on Telegram, making it accessible and user-friendly.
+- **Modular and Extensible:** Easily integrate additional market data sources or analytical indicators as your strategies evolve.
 
-<div align="center">
-  <img src="./docs/static/img/eliza_diagram.png" alt="Eliza Diagram" width="100%" />
-</div>
-
-## ✨ Features
-
-- 🛠️ Full-featured Discord, Twitter and Telegram connectors
-- 🔗 Support for every model (Llama, Grok, OpenAI, Anthropic, Gemini, etc.)
-- 👥 Multi-agent and room support
-- 📚 Easily ingest and interact with your documents
-- 💾 Retrievable memory and document store
-- 🚀 Highly extensible - create your own actions and clients
-- 📦 Just works!
-
-## Video Tutorials
-
-[AI Agent Dev School](https://www.youtube.com/watch?v=ArptLpQiKfI&list=PLx5pnFXdPTRzWla0RaOxALTSTnVq53fKL)
-
-## 🎯 Use Cases
-
-- 🤖 Chatbots
-- 🕵️ Autonomous Agents
-- 📈 Business Process Handling
-- 🎮 Video Game NPCs
-- 🧠 Trading
-
-## 🚀 Quick Start
+## Installation
 
 ### Prerequisites
 
 - [Python 2.7+](https://www.python.org/downloads/)
 - [Node.js 23+](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 - [pnpm](https://pnpm.io/installation)
+- A Telegram account and a bot token obtained from [BotFather](https://core.telegram.org/bots#botfather)
 
 > **Note for Windows Users:** [WSL 2](https://learn.microsoft.com/en-us/windows/wsl/install-manual) is required.
 
-### Use the Starter (Recommended)
-
-```bash
-git clone https://github.com/elizaos/eliza-starter.git
-cd eliza-starter
-cp .env.example .env
-pnpm i && pnpm build && pnpm start
-```
-
-### Manually Start Eliza (Only recommended if you know what you are doing)
-
-#### Checkout the latest release
-
-```bash
-# Clone the repository
-git clone https://github.com/elizaos/eliza.git
-
-# This project iterates fast, so we recommend checking out the latest release
-git checkout $(git describe --tags --abbrev=0)
-# If the above doesn't checkout the latest release, this should work:
-# git checkout $(git describe --tags `git rev-list --tags --max-count=1`)
-```
+### Manually Start Eliza
 
 #### Edit the .env file
 
@@ -83,14 +46,11 @@ Copy .env.example to .env and fill in the appropriate values.
 cp .env.example .env
 ```
 
-Note: .env is optional. If you're planning to run multiple distinct agents, you can pass secrets through the character JSON
-
 #### Start Eliza
 
 ```bash
 pnpm i
 pnpm build
-pnpm start
 
 # The project iterates fast, sometimes you need to clean the project if you are coming back to the project
 pnpm clean
@@ -107,20 +67,6 @@ pnpm start:client
 ```
 
 Then read the [Documentation](https://elizaos.github.io/eliza/) to learn how to customize your Eliza.
-
----
-
-### Automatically Start Eliza
-
-The start script provides an automated way to set up and run Eliza:
-
-```bash
-sh scripts/start.sh
-```
-
-For detailed instructions on using the start script, including character management and troubleshooting, see our [Start Script Guide](./docs/docs/guides/start-script.md).
-
-> **Note**: The start script handles all dependencies, environment setup, and character management automatically.
 
 ---
 
@@ -146,31 +92,36 @@ pnpm install --include=optional sharp
 
 ---
 
-### Start Eliza with Gitpod
+## Usage
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/elizaos/eliza/tree/main)
+Once the bot is running, it will listen for commands on Telegram. For example, a user can make requests such as:
 
----
+- `Buy 0.001 ETH`
+- `Sell 0.001 ETH`
 
-### Deploy Eliza in one click 
+Upon receiving a command, TradePilot will:
+1. Query the latest market data and analyze sentiment.
+2. Provide a response with market context and advice.
+3. Execute the trade if conditions are favorable, or alert the user if caution is advised.
 
-Use [Fleek](https://fleek.xyz/eliza/) to deploy Eliza in one click. This opens Eliza to non-developers and provides the following options to build your agent:
-1. Start with a template
-2. Build characterfile from scratch
-3. Upload pre-made characterfile
+## Configuration
 
-Click [here](https://fleek.xyz/eliza/) to get started!
+- **Market Analysis:** Customize your analysis logic in `x.ts` to include additional indicators or to integrate more data sources.
+- **Trade Execution:** The module `x.ts` handles trade execution and can be adapted to support different exchanges or simulated environments for testing.
+- **Telegram Commands:** Edit `x.ts` to add new commands or modify existing ones to better suit your workflow.
 
----
+## License
 
-### Community & contact
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-- [GitHub Issues](https://github.com/elizaos/eliza/issues). Best for: bugs you encounter using Eliza, and feature proposals.
-- [Discord](https://discord.gg/ai16z). Best for: sharing your applications and hanging out with the community.
+## Contact
 
-## Citation
+For questions, feedback, or suggestions, please open an issue in this repository or email [tradepilot@email.com](mailto:tradepilot@email.com).
 
-We now have a [paper](https://arxiv.org/pdf/2501.06781) you can cite for the Eliza OS:
+
+## Citation for the Eliza Framework
+
+Eliza's team now have a [paper](https://arxiv.org/pdf/2501.06781) where more info about the framework could be found:
 ```bibtex
 @article{walters2025eliza,
   title={Eliza: A Web3 friendly AI Agent Operating System},
@@ -179,14 +130,3 @@ We now have a [paper](https://arxiv.org/pdf/2501.06781) you can cite for the Eli
   year={2025}
 }
 ```
-
-## Contributors
-
-<a href="https://github.com/elizaos/eliza/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=elizaos/eliza" alt="Eliza project contributors" />
-</a>
-
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=elizaos/eliza&type=Date)](https://star-history.com/#elizaos/eliza&Date)
