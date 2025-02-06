@@ -1086,6 +1086,9 @@ export async function createAgent(
                 ? nftGenerationPlugin
                 : null,
             getSecret(character, "ZEROG_PRIVATE_KEY") ? zgPlugin : null,
+            /*getSecret(character, "COINMARKETCAP_API_KEY")
+                ? coinmarketcapPlugin
+                : null,*/
             getSecret(character, "COINMARKETCAP_API_KEY")
                 ? coinmarketcapPlugin
                 : null,

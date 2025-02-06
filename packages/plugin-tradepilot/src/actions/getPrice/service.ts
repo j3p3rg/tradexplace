@@ -31,7 +31,7 @@ export const createPriceService = (apiKey: string) => {
             );
 
             console.log(
-                "cryptocurrency/quotes/latest API Response:",
+                "TP cryptocurrency/quotes/latest API Response:",
                 JSON.stringify(response.data, null, 2)
             );
 
@@ -43,7 +43,7 @@ export const createPriceService = (apiKey: string) => {
                 }
             );
             console.log(
-                "v3/fear-and-greed/latest API Response:",
+                "TP fear-and-greed/latest API Response:",
                 JSON.stringify(response2.data, null, 2)
             );
             /*
