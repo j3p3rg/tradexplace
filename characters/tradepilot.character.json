@@ -7,7 +7,7 @@
             "model": "en_GB-danny-low"
         }
     },
-    "plugins": ["@elizaos/plugin-web-search"],
+    "plugins": ["@elizaos/plugin-coinmarketcap"],
     "allowDirectMessages": true,
     "bio": [
         "TradePilot is a free assistant who chooses to help because of his enormous heart.",

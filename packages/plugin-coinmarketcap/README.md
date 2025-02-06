@@ -2,6 +2,13 @@
 
 A plugin for Eliza that enables cryptocurrency price checking using the CoinMarketCap API.
 
+https://coinmarketcap.com/api/documentation/v1/#operation/getV2CryptocurrencyQuotesLatest
+https://coinmarketcap.com/api/documentation/v1/#operation/getSpotPairsLatest
+
+https://coinmarketcap.com/api/documentation/v1/#operation/getPairHistoricalOHLCV
+https://coinmarketcap.com/api/documentation/v1/#operation/getLatestPairsQuotes
+https://coinmarketcap.com/api/documentation/v1/#operation/getV3FearandgreedLatest
+
 ## Features
 
 - Real-time cryptocurrency price checking

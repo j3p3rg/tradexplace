@@ -31,8 +31,26 @@ export const createPriceService = (apiKey: string) => {
             );
 
             console.log(
-                "API Response:",
+                "cryptocurrency/quotes/latest API Response:",
                 JSON.stringify(response.data, null, 2)
+            );
+            //https://pro-api.coinmarketcap.com/v4/ 
+            const response2 = await client.get<ApiResponse>(
+                "/dex/spot-pairs/latest",
+                {
+                    params: {
+                        network_slug: "base",
+                        symbol: normalizedSymbol,
+                        base_asset_symbol: normalizedSymbol.toLowerCase()+",usdc",
+                        quote_asset_symbol: normalizedSymbol.toLowerCase()+",usdc",
+                        dex_slug : "uniswap,pancakeswap,aerodrome"
+                    },
+                }
+            );
+
+            console.log(
+                "cryptocurrency/quotes/latest API Response:",
+                JSON.stringify(response2.data, null, 2)
             );
 
             const symbolData = response.data.data[normalizedSymbol];
