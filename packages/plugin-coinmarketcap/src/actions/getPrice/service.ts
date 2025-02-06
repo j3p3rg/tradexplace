@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { ApiResponse, PriceData } from "./types";
 
-const BASE_URL = "https://pro-api.coinmarketcap.com/v1";
+const BASE_URL = "https://pro-api.coinmarketcap.com/";
 
 export const createPriceService = (apiKey: string) => {
     const client = axios.create({
@@ -21,7 +21,7 @@ export const createPriceService = (apiKey: string) => {
 
         try {
             const response = await client.get<ApiResponse>(
-                "/cryptocurrency/quotes/latest",
+                "v1/cryptocurrency/quotes/latest",
                 {
                     params: {
                         symbol: normalizedSymbol,
@@ -34,24 +34,36 @@ export const createPriceService = (apiKey: string) => {
                 "cryptocurrency/quotes/latest API Response:",
                 JSON.stringify(response.data, null, 2)
             );
-            //https://pro-api.coinmarketcap.com/v4/ 
+
+            //v3/fear-and-greed/latest
             const response2 = await client.get<ApiResponse>(
+                "v3/fear-and-greed/latest",
+                {
+                    params: {},
+                }
+            );
+            console.log(
+                "v3/fear-and-greed/latest API Response:",
+                JSON.stringify(response2.data, null, 2)
+            );
+
+            //https://pro-api.coinmarketcap.com/v4/ 
+            /*const response2 = await client.get<ApiResponse>(
                 "/dex/spot-pairs/latest",
                 {
                     params: {
                         network_slug: "base",
-                        symbol: normalizedSymbol,
+                        //symbol: normalizedSymbol,
                         base_asset_symbol: normalizedSymbol.toLowerCase()+",usdc",
                         quote_asset_symbol: normalizedSymbol.toLowerCase()+",usdc",
                         dex_slug : "uniswap,pancakeswap,aerodrome"
                     },
                 }
             );
-
             console.log(
                 "cryptocurrency/quotes/latest API Response:",
                 JSON.stringify(response2.data, null, 2)
-            );
+            );*/
 
             const symbolData = response.data.data[normalizedSymbol];
             if (!symbolData) {
