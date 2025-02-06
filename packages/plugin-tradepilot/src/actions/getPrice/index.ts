@@ -12,8 +12,8 @@ import {
 import { validateCoinMarketCapConfig } from "../../environment";
 import { priceExamples } from "./examples";
 import { createPriceService } from "./service";
-import { getPriceTemplate } from "./template";
-import type { GetPriceContent } from "./types";
+import { getAnalysisTemplate, getPriceTemplate } from "./template";
+import type { GetAnalysisContent, GetPriceContent } from "./types";
 import { isGetPriceContent } from "./validation";
 
 export default {
@@ -56,7 +56,6 @@ export default {
                 state: currentState,
                 template: getPriceTemplate,
             });
-
             const content = (await generateObjectDeprecated({
                 runtime,
                 context: priceContext,
@@ -80,13 +79,52 @@ export default {
                     content.symbol,
                     content.currency
                 );
+
+                console.log(
+                    "TP1 GET_PRICE handler priceData?",priceData
+                );
+
+                console.log(
+                    "TP1 GET_PRICE handler priceData.dataFear:",priceData.dataFear
+                );
+                console.log(
+                    "TP1 GET_PRICE handler priceData.dataLatestQuotes:",priceData.dataLatestQuotes
+                );
+
+                
+                // Compose and generate market analysis content
+                const analysisContext = composeContext({
+                    state: {
+                        dataFear: priceData.dataFear, 
+                        dataLatestQuotes: priceData.dataLatestQuotes,
+                        bio: "",
+                        lore: "",
+                        messageDirections: "",
+                        postDirections: "",
+                        roomId: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                        actors: "",
+                        recentMessages: "",
+                        recentMessagesData: []
+                    },
+                    template: getAnalysisTemplate,
+                });
+                const analysisContent = (await generateObjectDeprecated({
+                    runtime,
+                    context: analysisContext,
+                    modelClass: ModelClass.SMALL,
+                })) as unknown as GetAnalysisContent;
+                console.log(
+                    "TP analysisContent:",analysisContent
+                );
+
                 elizaLogger.success(
                     `Price retrieved successfully! ${content.symbol}: ${priceData.price} ${content.currency.toUpperCase()}`
                 );
 
                 if (callback) {
                     callback({
-                        text: `The current price of ${content.symbol} is ${priceData.price} ${content.currency.toUpperCase()}`,
+                        //text: `The current price of ${content.symbol} is ${priceData.price} ${content.currency.toUpperCase()}`,
+                        text: `The current price of ${content.symbol} is ${priceData.price} ${content.currency.toUpperCase()}. TradePilot thinks that it would be wise to ${analysisContent.advice} taking into account that ${analysisContent.analysis}`,
                         content: {
                             symbol: content.symbol,
                             currency: content.currency,
@@ -97,20 +135,22 @@ export default {
 
                 return true;
             } catch (error) {
-                elizaLogger.error("Error in GET_PRICE handler:", error);
+                console.error("2 Error in GET_PRICE handler:", error);
+                elizaLogger.error("2 Error in GET_PRICE handler:", error);
                 if (callback) {
                     callback({
-                        text: `Error fetching price: ${error.message}`,
+                        text: `2 Error fetching price: ${error.message}`,
                         content: { error: error.message },
                     });
                 }
                 return false;
             }
         } catch (error) {
-            elizaLogger.error("Error in GET_PRICE handler:", error);
+            console.error("1 Error in GET_PRICE handler:", error);
+            elizaLogger.error("1 Error in GET_PRICE handler:", error);
             if (callback) {
                 callback({
-                    text: `Error fetching price: ${error.message}`,
+                    text: `1 Error fetching price: ${error.message}`,
                     content: { error: error.message },
                 });
             }

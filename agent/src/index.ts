@@ -80,7 +80,9 @@ import {
     webhookPlugin,
 } from "@elizaos/plugin-coinbase";
 import { coingeckoPlugin } from "@elizaos/plugin-coingecko";
-import { coinmarketcapPlugin } from "@elizaos/plugin-coinmarketcap";
+//import { coinmarketcapPlugin } from "@elizaos/plugin-coinmarketcap";
+import { tradepilotPlugin } from "@elizaos/plugin-tradepilot";
+
 import { confluxPlugin } from "@elizaos/plugin-conflux";
 import { createCosmosPlugin } from "@elizaos/plugin-cosmos";
 import { cronosZkEVMPlugin } from "@elizaos/plugin-cronoszkevm";
@@ -1032,9 +1034,9 @@ export async function createAgent(
             bootstrapPlugin,
             getSecret(character, "CDP_API_KEY_NAME") &&
             getSecret(character, "CDP_API_KEY_PRIVATE_KEY") &&
-            getSecret(character, "CDP_AGENT_KIT_NETWORK")
+            /*getSecret(character, "CDP_AGENT_KIT_NETWORK")
                 ? agentKitPlugin
-                : null,
+                : null,*/
             getSecret(character, "DEXSCREENER_API_KEY")
                 ? dexScreenerPlugin
                 : null,
@@ -1090,7 +1092,7 @@ export async function createAgent(
                 ? coinmarketcapPlugin
                 : null,*/
             getSecret(character, "COINMARKETCAP_API_KEY")
-                ? coinmarketcapPlugin
+                ? tradepilotPlugin
                 : null,
             getSecret(character, "ZERION_API_KEY") ? zerionPlugin : null,
             getSecret(character, "COINBASE_COMMERCE_KEY")

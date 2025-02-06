@@ -29,9 +29,8 @@ export const createPriceService = (apiKey: string) => {
                     },
                 }
             );
-
             console.log(
-                "TP cryptocurrency/quotes/latest API Response:",
+                "TP1 cryptocurrency/quotes/latest API Response:",
                 JSON.stringify(response.data, null, 2)
             );
 
@@ -43,7 +42,7 @@ export const createPriceService = (apiKey: string) => {
                 }
             );
             console.log(
-                "TP fear-and-greed/latest API Response:",
+                "TP1 v3/fear-and-greed/latest API Response:",
                 JSON.stringify(response2.data, null, 2)
             );
             /*
@@ -139,7 +138,7 @@ v3/fear-and-greed/latest API Response: {
                 "cryptocurrency/quotes/latest API Response:",
                 JSON.stringify(response2.data, null, 2)
             );*/
-
+            
             const symbolData = response.data.data[normalizedSymbol];
             if (!symbolData) {
                 throw new Error(
@@ -159,6 +158,8 @@ v3/fear-and-greed/latest API Response: {
                 marketCap: quoteData.market_cap,
                 volume24h: quoteData.volume_24h,
                 percentChange24h: quoteData.percent_change_24h,
+                dataLatestQuotes: JSON.stringify(response.data, null, 2),
+                dataFear: JSON.stringify(response2.data, null, 2),
             };
         } catch (error) {
             if (axios.isAxiosError(error)) {
