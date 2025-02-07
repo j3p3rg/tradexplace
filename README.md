@@ -88,6 +88,9 @@ Then read the [Documentation](https://elizaos.github.io/eliza/) to learn how to 
 1. To load TradePilot character:
     - Use `pnpm start --characters="characters/tradepilot.character.json"`
 
+2. If you get errors running the client related to sqlite3, try te solution in this:
+https://elizaos.github.io/eliza/docs/quickstart/#common-issues--solutions
+
 ---
 
 #### Additional Requirements

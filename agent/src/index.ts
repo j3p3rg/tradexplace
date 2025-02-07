@@ -1034,9 +1034,9 @@ export async function createAgent(
             bootstrapPlugin,
             getSecret(character, "CDP_API_KEY_NAME") &&
             getSecret(character, "CDP_API_KEY_PRIVATE_KEY") &&
-            /*getSecret(character, "CDP_AGENT_KIT_NETWORK")
+            getSecret(character, "CDP_AGENT_KIT_NETWORK")
                 ? agentKitPlugin
-                : null,*/
+                : null,
             getSecret(character, "DEXSCREENER_API_KEY")
                 ? dexScreenerPlugin
                 : null,
