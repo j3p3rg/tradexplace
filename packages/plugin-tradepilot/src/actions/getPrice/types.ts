@@ -17,6 +17,8 @@ export interface PriceData {
     percentChange24h: number;
     dataFear: string;
     dataLatestQuotes: string;
+    dataLatestNewsCryptocurrency: string;
+    dataLatestNewsStocksMarket: string;
 }
 
 export interface ApiResponse {

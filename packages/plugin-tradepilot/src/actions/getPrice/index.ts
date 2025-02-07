@@ -69,18 +69,55 @@ export default {
 
             // Get price from CoinMarketCap
             const config = await validateCoinMarketCapConfig(runtime);
+            const tavilyApiKey = runtime.getSetting("TAVILY_API_KEY") as string;
 
             const priceService = createPriceService(
-                config.COINMARKETCAP_API_KEY
+                config.COINMARKETCAP_API_KEY,
+                tavilyApiKey
             );
 
             try {
+
+                /*const apiKey = _runtime.getSetting("TAVILY_API_KEY") as string;
+                    if (!apiKey) {
+                        throw new Error("TAVILY_API_KEY is not set");
+                    }
+                    this.tavilyClient = tavily({ apiKey });
+
+                    let webSearchPrompt = "";
+                
+                    const response = await this.tavilyClient.search(webSearchPrompt + ". Based on the sentiment of the news give a buy, sell, or hold advice for the token, with a short summary of what is currently happening in the market that justifies the advice you are giving. The response must be just the advice and short summary. Don't include the price.", {
+                        includeAnswer: options?.includeAnswer || true,
+                        maxResults: options?.limit || 8,
+                        topic: options?.type || "news",
+                        searchDepth: options?.searchDepth || "advanced",
+                        includeImages: options?.includeImages || false,
+                        days: options?.days || 2,
+                    });
+
+                if (searchResponse && searchResponse.results.length) {
+                    const responseList = searchResponse.answer
+                        ? `${searchResponse.answer}${Array.isArray(searchResponse.results) &&
+                            searchResponse.results.length > 0
+                            ? `\n\nFor more details, you can check out these resources:\n${searchResponse.results
+                                .map(
+                                    (result: SearchResult, index: number) =>
+                                        `${index + 1}. [${result.title}](${result.url})`
+                                )
+                                .join("\n")}`
+                            : ""
+                        }`
+                        : "";
+                } else {
+                    elizaLogger.error("search failed or returned no data.");
+                }*/
+
                 const priceData = await priceService.getPrice(
                     content.symbol,
                     content.currency
                 );
 
-                console.log(
+                /*console.log(
                     "TP1 GET_PRICE handler priceData?",priceData
                 );
 
@@ -89,14 +126,16 @@ export default {
                 );
                 console.log(
                     "TP1 GET_PRICE handler priceData.dataLatestQuotes:",priceData.dataLatestQuotes
-                );
+                );*/
 
-                
+
                 // Compose and generate market analysis content
                 const analysisContext = composeContext({
                     state: {
-                        dataFear: priceData.dataFear, 
+                        dataFear: priceData.dataFear,
                         dataLatestQuotes: priceData.dataLatestQuotes,
+                        dataLatestNewsCryptocurrency: priceData.dataLatestNewsCryptocurrency,
+                        dataLatestNewsStocksMarket: priceData.dataLatestNewsStocksMarket,
                         bio: "",
                         lore: "",
                         messageDirections: "",
@@ -113,9 +152,7 @@ export default {
                     context: analysisContext,
                     modelClass: ModelClass.SMALL,
                 })) as unknown as GetAnalysisContent;
-                console.log(
-                    "TP analysisContent:",analysisContent
-                );
+                console.log("TP1 analysisContent:", analysisContent);
 
                 elizaLogger.success(
                     `Price retrieved successfully! ${content.symbol}: ${priceData.price} ${content.currency.toUpperCase()}`
@@ -124,7 +161,7 @@ export default {
                 if (callback) {
                     callback({
                         //text: `The current price of ${content.symbol} is ${priceData.price} ${content.currency.toUpperCase()}`,
-                        text: `The current price of ${content.symbol} is ${priceData.price} ${content.currency.toUpperCase()}. TradePilot thinks that it would be wise to ${analysisContent.advice} taking into account that ${analysisContent.analysis}`,
+                        text: `The current price of ${content.symbol} is ${priceData.price} ${content.currency.toUpperCase()}. TradePilot thinks that it would be wise to ${analysisContent.advice}: ${analysisContent.analysis}`,
                         content: {
                             symbol: content.symbol,
                             currency: content.currency,
