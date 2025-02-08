@@ -25,6 +25,7 @@ import type {
     Account,
     PrivateKeyAccount,
     TestClient,
+    Hex,
 } from "viem";
 import * as viemChains from "viem/chains";
 import { DeriveKeyProvider, TEEMode } from "@elizaos/plugin-tee";
@@ -249,14 +250,14 @@ export class WalletProvider {
 
         const viemChain: Chain = customRpcUrl
             ? {
-                  ...baseChain,
-                  rpcUrls: {
-                      ...baseChain.rpcUrls,
-                      custom: {
-                          http: [customRpcUrl],
-                      },
-                  },
-              }
+                ...baseChain,
+                rpcUrls: {
+                    ...baseChain.rpcUrls,
+                    custom: {
+                        http: [customRpcUrl],
+                    },
+                },
+            }
             : baseChain;
 
         return viemChain;
@@ -315,13 +316,13 @@ export const initWalletProvider = async (runtime: IAgentRuntime) => {
             chains
         );
     } else {
-        const privateKey = runtime.getSetting(
-            "EVM_PRIVATE_KEY"
-        ) as `0x${string}`;
-        if (!privateKey) {
+        const privateKey = runtime.getSetting("EVM_PRIVATE_KEY");
+        const hexPrivateKey = `0x${privateKey}` as Hex;
+
+        if (!hexPrivateKey) {
             throw new Error("EVM_PRIVATE_KEY is missing");
         }
-        return new WalletProvider(privateKey, runtime.cacheManager, chains);
+        return new WalletProvider(hexPrivateKey, runtime.cacheManager, chains);
     }
 };
 
@@ -337,6 +338,11 @@ export const evmWalletProvider: Provider = {
             const balance = await walletProvider.getWalletBalance();
             const chain = walletProvider.getCurrentChain();
             const agentName = state?.agentName || "The agent";
+
+            console.log(`evm evmWalletProvider - EVM Wallet Address: ${address}`);
+            console.log("evm evmWalletProvider - addressChain:", chain);
+            console.log("evm evmWalletProvider - addressBalance:", balance);
+
             return `${agentName}'s EVM Wallet Address: ${address}\nBalance: ${balance} ${chain.nativeCurrency.symbol}\nChain ID: ${chain.id}, Name: ${chain.name}`;
         } catch (error) {
             console.error("Error in EVM wallet provider:", error);

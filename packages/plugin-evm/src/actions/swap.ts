@@ -359,6 +359,8 @@ export const swapAction = {
         const walletProvider = await initWalletProvider(runtime);
         const action = new SwapAction(walletProvider);
 
+        console.log("EVM Swap action handler called");
+
         // Compose swap context
         const swapContext = composeContext({
             state,
@@ -393,6 +395,7 @@ export const swapAction = {
             }
             return true;
         } catch (error) {
+            console.log("evm error:",error);
             elizaLogger.error("Error in swap handler:", error.message);
             if (callback) {
                 callback({ text: `Error: ${error.message}` });
@@ -410,11 +413,11 @@ export const swapAction = {
             {
                 user: "user",
                 content: {
-                    text: "Swap 1 ETH for USDC on Base",
-                    action: "TOKEN_SWAP",
+                    text: "Swap 0.1 ETH for USDC on Sepolia",
+                    action: "SWAP_TOKENS",
                 },
             },
         ],
     ],
-    similes: ["TOKEN_SWAP", "EXCHANGE_TOKENS", "TRADE_TOKENS"],
+    similes: ["SWAP_TOKENS", "TOKEN_SWAP", "EXCHANGE_TOKENS", "TRADE_TOKENS"],
 }; // TODO: add more examples

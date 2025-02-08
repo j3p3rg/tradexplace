@@ -53,7 +53,7 @@ import { footballPlugin } from "@elizaos/plugin-football";
 
 import { bootstrapPlugin } from "@elizaos/plugin-bootstrap";
 import { normalizeCharacter } from "@elizaos/plugin-di";
-import createGoatPlugin from "@elizaos/plugin-goat";
+//import createGoatPlugin from "@elizaos/plugin-goat";
 import createZilliqaPlugin from "@elizaos/plugin-zilliqa";
 
 // import { intifacePlugin } from "@elizaos/plugin-intiface";
@@ -943,13 +943,13 @@ export async function createAgent(
         throw new Error("Invalid TEE configuration");
     }
 
-    let goatPlugin: any | undefined;
+    /*let goatPlugin: any | undefined;
 
     if (getSecret(character, "EVM_PRIVATE_KEY")) {
         goatPlugin = await createGoatPlugin((secret) =>
             getSecret(character, secret)
         );
-    }
+    }*/
 
     let zilliqaPlugin: any | undefined;
     if (getSecret(character, "ZILLIQA_PRIVATE_KEY")) {
@@ -1024,7 +1024,12 @@ export async function createAgent(
             zilliqaPlugin,
             bootstrapPlugin,
             nodePlugin,
-            goatPlugin,
+            getSecret(character, "EVM_PUBLIC_KEY") ||
+            (getSecret(character, "WALLET_PUBLIC_KEY") &&
+                getSecret(character, "WALLET_PUBLIC_KEY")?.startsWith("0x"))
+                ? evmPlugin
+                : null,
+            //goatPlugin,
             /*
             getSecret(character, "ZERO_EX_API_KEY") ? zxPlugin : null,
             

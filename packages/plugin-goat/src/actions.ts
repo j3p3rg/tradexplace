@@ -18,8 +18,8 @@ import {
 export async function getOnChainActions(wallet: WalletClientBase) {
     const actionsWithoutHandler = [
         {
-            name: "SWAP_TOKENS",
-            description: "Swap two different tokens using KIM protocol",
+            name: "SWAPPING_GOAT",
+            description: "Trade two different tokens using Uniswap V2 protocol",
             similes: [],
             validate: async () => true,
             examples: [],
@@ -27,10 +27,22 @@ export async function getOnChainActions(wallet: WalletClientBase) {
         // 1. Add your actions here
     ];
 
+    const uniPlugin = uniswap({
+        baseUrl: process.env.UNISWAP_BASE_URL as string,
+        apiKey: process.env.UNISWAP_API_KEY as string,
+    });
+
+    const address = wallet.getAddress();
+    const addressChain = wallet.getChain();
+    const addressBalance = await wallet.balanceOf(address);
+    console.log(`goat getOnChainActions - EVM Wallet Address: ${address}`);
+    console.log("goat getOnChainActions - addressChain:",addressChain);
+    console.log("goat getOnChainActions - addressBalance:",addressBalance);
+
     const tools = await getOnChainTools({
         wallet: wallet,
         // 2. Configure the plugins you need to perform those actions
-        plugins: [sendETH(), erc20({ tokens: [USDC, MODE] }), kim()],
+        plugins: [uniPlugin],
     });
 
     // 3. Let GOAT handle all the actions
@@ -68,9 +80,9 @@ function getActionHandler(
                 tools,
                 maxSteps: 10,
                 // Uncomment to see the log each tool call when debugging
-                // onStepFinish: (step) => {
-                //     console.log(step.toolResults);
-                // },
+                 onStepFinish: (step) => {
+                     console.log(step.toolResults);
+                 },
                 modelClass: ModelClass.LARGE,
             });
 
@@ -84,6 +96,7 @@ function getActionHandler(
             });
             return true;
         } catch (error) {
+            console.error("goat getActionHandler error:",error);
             const errorMessage =
                 error instanceof Error ? error.message : String(error);
 
