@@ -1018,6 +1018,16 @@ export async function createAgent(
         character,
         // character.plugins are handled when clients are added
         plugins: [
+            getSecret(character, "COINMARKETCAP_API_KEY")
+                ? tradepilotPlugin
+                : null,
+            zilliqaPlugin,
+            bootstrapPlugin,
+            nodePlugin,
+            goatPlugin,
+            /*
+            getSecret(character, "ZERO_EX_API_KEY") ? zxPlugin : null,
+            
             parseBooleanFromText(getSecret(character, "BITMIND")) &&
             getSecret(character, "BITMIND_API_TOKEN")
                 ? bittensorPlugin
@@ -1031,7 +1041,6 @@ export async function createAgent(
             getSecret(character, "IQSOlRPC")
                 ? elizaCodeinPlugin
                 : null,
-            bootstrapPlugin,
             getSecret(character, "CDP_API_KEY_NAME") &&
             getSecret(character, "CDP_API_KEY_PRIVATE_KEY") &&
             getSecret(character, "CDP_AGENT_KIT_NETWORK")
@@ -1044,7 +1053,6 @@ export async function createAgent(
             getSecret(character, "CONFLUX_CORE_PRIVATE_KEY")
                 ? confluxPlugin
                 : null,
-            nodePlugin,
             getSecret(character, "ROUTER_NITRO_EVM_PRIVATE_KEY") &&
             getSecret(character, "ROUTER_NITRO_EVM_ADDRESS")
                 ? nitroPlugin
@@ -1088,11 +1096,8 @@ export async function createAgent(
                 ? nftGenerationPlugin
                 : null,
             getSecret(character, "ZEROG_PRIVATE_KEY") ? zgPlugin : null,
-            /*getSecret(character, "COINMARKETCAP_API_KEY")
-                ? coinmarketcapPlugin
-                : null,*/
             getSecret(character, "COINMARKETCAP_API_KEY")
-                ? tradepilotPlugin
+                ? coinmarketcapPlugin
                 : null,
             getSecret(character, "ZERION_API_KEY") ? zerionPlugin : null,
             getSecret(character, "COINBASE_COMMERCE_KEY")
@@ -1138,8 +1143,6 @@ export async function createAgent(
             getSecret(character, "COINBASE_NOTIFICATION_URI")
                 ? webhookPlugin
                 : null,
-            goatPlugin,
-            zilliqaPlugin,
             getSecret(character, "COINGECKO_API_KEY") ||
             getSecret(character, "COINGECKO_PRO_API_KEY")
                 ? coingeckoPlugin
@@ -1228,7 +1231,7 @@ export async function createAgent(
             getSecret(character, "RESERVOIR_API_KEY")
                 ? createNFTCollectionsPlugin()
                 : null,
-            getSecret(character, "ZERO_EX_API_KEY") ? zxPlugin : null,
+            
             getSecret(character, "DKG_PRIVATE_KEY") ? dkgPlugin : null,
             getSecret(character, "PYTH_TESTNET_PROGRAM_KEY") ||
             getSecret(character, "PYTH_MAINNET_PROGRAM_KEY")
@@ -1299,7 +1302,7 @@ export async function createAgent(
             getSecret(character, "ARBITRAGE_FLASHBOTS_RELAY_SIGNING_KEY") &&
             getSecret(character, "ARBITRAGE_BUNDLE_EXECUTOR_ADDRESS")
                 ? arbitragePlugin
-                : null,
+                : null,*/
         ]
             .flat()
             .filter(Boolean),

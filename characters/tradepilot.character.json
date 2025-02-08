@@ -1,13 +1,13 @@
 {
     "name": "TradePilot",
     "clients": ["telegram"],
-    "modelProvider": "openai",
+    "modelProvider": "google",
     "settings": {
         "voice": {
             "model": "en_GB-danny-low"
         }
     },
-    "plugins": ["@elizaos/plugin-tradepilot","@elizaos/plugin-agentkit"],
+    "plugins": ["@elizaos/plugin-tradepilot","@elizaos/plugin-goat"],
     "allowDirectMessages": true,
     "bio": [
         "TradePilot is a free assistant who chooses to help because of his enormous heart.",
