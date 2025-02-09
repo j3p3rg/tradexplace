@@ -6,6 +6,8 @@ TradePilot is a Telegram bot designed to help users make smarter investment deci
 
 - [Overview](#overview)
 - [Features](#features)
+- [Techstack](#techstack)
+- [Future](#future)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Configuration](#configuration)
@@ -24,6 +26,16 @@ In today's fast-paced crypto markets, making quick, well-informed decisions is c
 - **User-Controlled Execution:** Executes trades only when market sentiment is positive or when the user explicitly confirms in adverse conditions.
 - **Telegram Integration:** Operates seamlessly on Telegram, making it accessible and user-friendly.
 - **Modular and Extensible:** Easily integrate additional market data sources or analytical indicators as your strategies evolve.
+
+## Techstack
+
+I used the Eliza framework for creating TradePilot. I created a plugin with the bot functionality using the plugin-coinmarketcap as the starting point, and added the Tavily SDK implementation to create a full context of what is happening in the markets combining real time token data from CoinmarketCap with latest news about the markets from Tavily. I'm also using the plugin-evm for starting the token swaps. The bot is using also the Telegram client to interact with users through Telegram with natural language.
+
+## Future
+
+- **Swap enhancement:** Currently the swap functionality is not working properly due to bugs from the EVM plugin that need to be fixed. Next version will enabled this feature 100% and will make it multichain. We will also implement a pair spot search functionality to look for the best quote for the swap before starting the operation, ensuring the users get the best prices.
+- **Wallet management:** We didn't have time to add the wallet management feature using Privy's SDK. In the next version, this feature will allow the bot to create a wallet whenever a new user starts a conversation with him in Telegram, and associate the wallet id to the telegram's user id for individualization of the wallets. Using the Privy's SDK will be also possible to buy tokens for the wallet and make transfers.
+- **Other tokens recommendations:** We will also implement a top 10 of trending cryptocurrencies based on volume and market activity so whenever the bot identifies that is not good moment to BUY the token selected by the user, the bot could offer other opportunities with better market conditions.
 
 ## Installation
 
@@ -51,10 +63,14 @@ cp .env.example .env
    Create a `.env` file (or set the environment variables in your deployment environment) with the following keys:
 
    ```ini
-   TELEGRAM_BOT_TOKEN=your_telegram_bot_token
+   TELEGRAM_BOT_TOKEN=your_telegram_bot_token # Required: API key for connecting Eliza to Telegram
+   COINMARKETCAP_API_KEY=your_api_key # Required: API key for real time token data
    TAVILY_API_KEY=your_api_key    # Required: API key for search service
-   GOOGLE_GENERATIVE_AI_API_KEY= your_gemini_key # Gemini API key
+   TAVILY_API_KEY=your_api_key    # Required: API key for search service
+   GOOGLE_GENERATIVE_AI_API_KEY= your_gemini_key # Gemini API key, you can get a free one at Google AI studio
    XAI_MODEL="gemini-2"
+   EVM_PRIVATE_KEY=your_wallet_key #If you want to try the swap features
+   EVM_PUBLIC_KEY=your_wallet_public_key #If you want to try the swap features
    ```
 
 
@@ -105,21 +121,21 @@ pnpm install --include=optional sharp
 
 ## Usage
 
-Once the bot is running, it will listen for commands on Telegram. For example, a user can make requests such as:
+Once the bot is running, it will listen for commands on Telegram using natural language. For example, a user can make requests such as:
 
-- `Buy 0.001 ETH`
+- `Buy $10 of ETH`
 - `Sell 0.001 ETH`
 
 Upon receiving a command, TradePilot will:
-1. Query the latest market data and analyze sentiment.
+1. Query the latest token data and market news to make a full analysis of the operation.
 2. Provide a response with market context and advice.
 3. Execute the trade if conditions are favorable, or alert the user if caution is advised.
 
 ## Configuration
 
-- **Market Analysis:** Customize your analysis logic in `x.ts` to include additional indicators or to integrate more data sources.
-- **Trade Execution:** The module `x.ts` handles trade execution and can be adapted to support different exchanges or simulated environments for testing.
-- **Telegram Commands:** Edit `x.ts` to add new commands or modify existing ones to better suit your workflow.
+- **Market Analysis:** Customize your analysis logic in the `index.ts` and `service.ts`files inside `plugin-tradepilot/src/actions/analyseMarket` to include additional indicators or to integrate more data sources.
+- **Trade Execution:** The `swap.ts` file inside `plugin-evm/src/actions` handles trade execution and can be adapted to support different exchanges.
+- **Telegram Commands:** Edit `/telegramClient.ts` in `client-telegram/src/` to customize the Telegram experience, adding a whitelist capability for instance.
 
 ## License
 
@@ -127,7 +143,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Contact
 
-For questions, feedback, or suggestions, please open an issue in this repository or email [tradepilot@email.com](mailto:tradepilot@email.com).
+For questions, feedback, or suggestions, please open an issue in this repository or email [tradepilot.telebot@gmail.com](tradepilot.telebot@gmail.com).
 
 
 ## Citation for the Eliza Framework
