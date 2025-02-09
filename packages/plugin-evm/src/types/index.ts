@@ -221,3 +221,9 @@ export interface ProposeProposalParams extends Proposal {
     chain: SupportedChain;
     governor: Address;
 }
+
+export interface SwapInquiry {
+    tokenFrom: string,
+    tokenTo: string,
+    amount: number,
+}

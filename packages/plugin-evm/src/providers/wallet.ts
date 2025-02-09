@@ -231,6 +231,10 @@ export class WalletProvider {
 
     private createHttpTransport = (chainName: SupportedChain) => {
         const chain = this.chains[chainName];
+        //const chain = this.chains["mainnet"];
+        //console.log("EVM wallet - chainName:",chainName);
+
+        //console.log("EVM wallet - chain:",chain);
 
         if (chain.rpcUrls.custom) {
             return http(chain.rpcUrls.custom.http[0]);
@@ -339,9 +343,9 @@ export const evmWalletProvider: Provider = {
             const chain = walletProvider.getCurrentChain();
             const agentName = state?.agentName || "The agent";
 
-            console.log(`evm evmWalletProvider - EVM Wallet Address: ${address}`);
+            /*console.log(`evm evmWalletProvider - EVM Wallet Address: ${address}`);
             console.log("evm evmWalletProvider - addressChain:", chain);
-            console.log("evm evmWalletProvider - addressBalance:", balance);
+            console.log("evm evmWalletProvider - addressBalance:", balance);*/
 
             return `${agentName}'s EVM Wallet Address: ${address}\nBalance: ${balance} ${chain.nativeCurrency.symbol}\nChain ID: ${chain.id}, Name: ${chain.name}`;
         } catch (error) {

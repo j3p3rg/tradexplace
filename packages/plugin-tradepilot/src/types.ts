@@ -12,6 +12,12 @@ export interface PriceData {
     percentChange24h: number;
 }
 
+export interface SwapInquiry {
+    tokenFrom: string,
+    tokenTo: string,
+    amount: number,
+}
+
 export interface ApiResponse {
     data: {
         [symbol: string]: {

@@ -1,10 +1,10 @@
 import type { Plugin } from "@elizaos/core";
-import getPrice from "./actions/getPrice";
+import analyseMarket from "./actions/analyseMarket";
 
 export const tradepilotPlugin: Plugin = {
     name: "tradepilot",
     description: "TradePilot Plugin for Eliza",
-    actions: [getPrice],
+    actions: [analyseMarket],
     evaluators: [],
     providers: [],
 };

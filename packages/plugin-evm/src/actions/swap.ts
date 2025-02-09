@@ -4,6 +4,7 @@ import {
     generateObjectDeprecated,
     ModelClass,
     elizaLogger,
+    MemoryManager,
 } from "@elizaos/core";
 import {
     createConfig,
@@ -15,7 +16,7 @@ import {
 
 import { initWalletProvider, type WalletProvider } from "../providers/wallet";
 import { swapTemplate } from "../templates";
-import type { SwapParams, SwapQuote, Transaction } from "../types";
+import type { SwapInquiry, SwapParams, SwapQuote, Transaction } from "../types";
 import {
     type Address,
     type ByteArray,
@@ -346,8 +347,9 @@ export class SwapAction {
 }
 
 export const swapAction = {
-    name: "swap",
-    description: "Swap tokens on the same chain",
+    name: "EXECUTE_SWAP",
+    similes: ["SWAP_TOKENS", "TOKEN_SWAP", "EXCHANGE_TOKENS", "TRADE_TOKENS","SWAP"],
+    description: "Execute a tolen swap on the same chain. This action is triggered only after the user has requested the information of a cryptocurrency.",
     handler: async (
         runtime: IAgentRuntime,
         _message: Memory,
@@ -372,15 +374,45 @@ export const swapAction = {
             modelClass: ModelClass.LARGE,
         });
 
-        const swapOptions: SwapParams = {
-            chain: content.chain,
-            fromToken: content.inputToken,
-            toToken: content.outputToken,
-            amount: content.amount,
-            slippage: content.slippage,
-        };
+        //console.log("EVM swap - content:", content);
+
+        const memoryManager = new MemoryManager({
+            runtime,
+            tableName: "TP_swap"
+        });
 
         try {
+            const memories = await memoryManager.getMemories({
+                roomId: _message.roomId,
+                count: 1,
+                start: 0,
+                end: Date.now(),
+            });
+            let swapInquiery;
+            if (memories?.[0]) {
+                swapInquiery = JSON.parse(memories[0].content.text) as SwapInquiry;
+            }
+
+            //console.log("EVM swap - swapInquiery:", swapInquiery);
+
+            /*
+             {
+                inputToken: 'ETH',
+                outputToken: 'USDC',
+                amount: '0.1',
+                chain: 'sepolia',
+                slippage: 'null'
+                }
+            */
+
+            const swapOptions: SwapParams = {
+                chain: content.chain,
+                fromToken: content.inputToken,
+                toToken: content.outputToken,
+                amount: content.amount,
+                slippage: content.slippage,
+            };
+
             const swapResp = await action.swap(swapOptions);
             if (callback) {
                 callback({
@@ -395,7 +427,7 @@ export const swapAction = {
             }
             return true;
         } catch (error) {
-            console.log("evm error:",error);
+            console.log("evm error:", error);
             elizaLogger.error("Error in swap handler:", error.message);
             if (callback) {
                 callback({ text: `Error: ${error.message}` });
@@ -411,13 +443,46 @@ export const swapAction = {
     examples: [
         [
             {
-                user: "user",
+                user: "{{user1}}",
                 content: {
                     text: "Swap 0.1 ETH for USDC on Sepolia",
+                },
+            },
+            {
+                user: "{{agent}}",
+                content: {
+                    text: "I'm going to swap 0.1 ETH for USDC, bear with me",
                     action: "SWAP_TOKENS",
                 },
             },
         ],
+        [
+            {
+                user: "{{user1}}",
+                content: {
+                    text: "Sell 20 XLM",
+                },
+            },
+            {
+                user: "{{agent}}",
+                content: {
+                    text: "Let me check the market data and the current Bitcoin price for you before selling.",
+                    action: "SELL_TOKEN",
+                },
+            },
+            {
+                user: "{{user1}}",
+                content: {
+                    text: "execute the swap",
+                },
+            },
+            {
+                user: "{{agent}}",
+                content: {
+                    text: "Let me execute the swap for you.",
+                    action: "EXECUTE_SWAP",
+                },
+            },
+        ],
     ],
-    similes: ["SWAP_TOKENS", "TOKEN_SWAP", "EXCHANGE_TOKENS", "TRADE_TOKENS"],
 }; // TODO: add more examples
