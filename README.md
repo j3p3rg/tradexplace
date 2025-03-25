@@ -82,7 +82,7 @@ pnpm build
 nvm install v23.3.0 #node v23.3.0 is required to avoid additional erros while running the agent
 
 # If you have any errors while running the install command then try this one:
-pnpm install --no-frozen-lockfile
+
 ```
 
 ### Interact via Browser
