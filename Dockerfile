@@ -38,7 +38,7 @@ WORKDIR /app
 COPY . .
 
 # Install dependencies
-Run nvm install v23.3.0
+Run pnpm install
 # RUN pnpm install --no-frozen-lockfile
 
 # Build the project
